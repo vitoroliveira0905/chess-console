@@ -1,18 +1,16 @@
 ﻿namespace chess_console.board.entities
 {
-    internal class Position
+    internal class Board
     {
         public int Rank { get; set; }
         public int File { get; set; }
+        public Piece[,] Pieces;
 
-        public Position(int rank, int file)
+        public Board(int rank, int file)
         {
             Rank = rank;
             File = file;
-        }
-        public override string ToString()
-        {
-            return Rank + ", " + File;
+            Pieces = new Piece[rank, file];
         }
     }
 }
