@@ -4,14 +4,14 @@ namespace chess_console.board.entities
 {
     internal class Piece
     {
-        public Position Position { get; protected set; }
+        public Position Position { get; set; }
         public Color Color { get; protected set; }
-        public Board Board { get; set; }
+        public Board Board { get; protected set; }
         public int AmountOfMovements { get; protected set; }
 
-        public Piece(Position position, Color color, Board board)
+        public Piece(Color color, Board board)
         {
-            Position = position;
+            Position = null;
             Color = color;
             Board = board;
             AmountOfMovements = 0;

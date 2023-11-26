@@ -16,5 +16,10 @@
         {
             return Pieces[rank, file];
         }
+        public void PlacePiece(Piece piece, Position position)
+        {
+            Pieces[position.Rank, position.File] = piece;
+            piece.Position = position;
+        }
     }
 }
