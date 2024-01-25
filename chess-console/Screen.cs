@@ -6,9 +6,9 @@ namespace chess_console
     {
         public static void PrintBoard(Board board)
         {
-            for(int i = 0; i < board.Rank; i++)
+            for(int i = 0; i < board.Row; i++)
             {
-                for(int j = 0; j < board.File;  j++)
+                for(int j = 0; j < board.Column;  j++)
                 {
                     if (board.Piece(i, j) == null)
                     {

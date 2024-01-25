@@ -4,23 +4,23 @@ namespace chess_console.board.entities
 {
     internal class Board
     {
-        public int Rank { get; set; }
-        public int File { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
         private Piece[,] Pieces;
 
-        public Board(int rank, int file)
+        public Board(int row, int column)
         {
-            Rank = rank;
-            File = file;
-            Pieces = new Piece[rank, file];
+            Row = row;
+            Column = column;
+            Pieces = new Piece[row, column];
         }
-        public Piece Piece(int rank, int file)
+        public Piece Piece(int row, int column)
         {
-            return Pieces[rank, file];
+            return Pieces[row, column];
         }
         public Piece Piece(Position position)
         {
-            return Pieces[position.Rank, position.File];
+            return Pieces[position.Row, position.Column];
         }
         public bool ThereIsPiece(Position position)
         {
@@ -33,12 +33,12 @@ namespace chess_console.board.entities
             {
                 throw new BoardException("There is already a piece in that position!");
             }
-            Pieces[position.Rank, position.File] = piece;
+            Pieces[position.Row, position.Column] = piece;
             piece.Position = position;
         }
         public bool ValidPosition(Position position)
         {
-            if(position.Rank < 0 || position.Rank >= Rank || position.File < 0 || position.File >= File)
+            if(position.Row < 0 || position.Row >= Row || position.Column < 0 || position.Column >= Column)
             {
                 return false;
             }

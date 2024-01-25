@@ -1,6 +1,6 @@
 ﻿using chess_console.board.entities.enums;
 using chess_console.board.entities;
-using chess_console.chess;
+using chess_console.chess.entities;
 using chess_console.board.entities.exceptions;
 
 namespace chess_console
@@ -9,21 +9,9 @@ namespace chess_console
     {
         static void Main(string[] args)
         {
-            try
-            {
-                Board board = new Board(8, 8);
-                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 0));
-                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 7));
-                board.PlacePiece(new King(Color.Black, board), new Position(0, 4));
-                board.PlacePiece(new Rook(Color.White, board), new Position(7, 0));
-                board.PlacePiece(new Rook(Color.White, board), new Position(7, 7));
-                board.PlacePiece(new King(Color.White, board), new Position(7, 4));
-                Screen.PrintBoard(board);
-            }
-            catch (BoardException e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            PositionChess pos = new PositionChess('b', 6);
+            Console.WriteLine(pos);
+            Console.WriteLine(pos.ToPosition());
         }
     }
 }

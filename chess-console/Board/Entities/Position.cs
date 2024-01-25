@@ -2,17 +2,17 @@
 {
     internal class Position
     {
-        public int Rank { get; set; }
-        public int File { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
-        public Position(int rank, int file)
+        public Position(int row, int column)
         {
-            Rank = rank;
-            File = file;
+            Row = row;
+            Column = column;
         }
         public override string ToString()
         {
-            return Rank + ", " + File;
+            return Row + ", " + Column;
         }
     }
 }
