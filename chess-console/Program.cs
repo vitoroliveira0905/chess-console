@@ -9,9 +9,21 @@ namespace chess_console
     {
         static void Main(string[] args)
         {
-            PositionChess pos = new PositionChess('b', 6);
-            Console.WriteLine(pos);
-            Console.WriteLine(pos.ToPosition());
+            try
+            {
+                Board board = new Board(8, 8);
+                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 0));
+                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 7));
+                board.PlacePiece(new King(Color.Black, board), new Position(0, 4));
+                board.PlacePiece(new Rook(Color.White, board), new Position(7, 0));
+                board.PlacePiece(new Rook(Color.White, board), new Position(7, 7));
+                board.PlacePiece(new King(Color.White, board), new Position(7, 4));
+                Screen.PrintBoard(board);
+            }
+            catch (BoardException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
