@@ -1,5 +1,4 @@
-﻿using chess_console.board.entities.enums;
-using chess_console.board.entities;
+﻿using chess_console.board.entities;
 using chess_console.chess.entities;
 using chess_console.board.entities.exceptions;
 
@@ -11,14 +10,18 @@ namespace chess_console
         {
             try
             {
-                Board board = new Board(8, 8);
-                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 0));
-                board.PlacePiece(new Rook(Color.Black, board), new Position(0, 7));
-                board.PlacePiece(new King(Color.Black, board), new Position(0, 4));
-                board.PlacePiece(new Rook(Color.White, board), new Position(7, 0));
-                board.PlacePiece(new Rook(Color.White, board), new Position(7, 7));
-                board.PlacePiece(new King(Color.White, board), new Position(7, 4));
-                Screen.PrintBoard(board);
+                ChessMatch chessMatch = new ChessMatch();
+                while (!chessMatch.Finished)
+                {
+                    Console.Clear();
+                    Screen.PrintBoard(chessMatch.Board);
+                    Console.WriteLine();
+                    Console.Write("Origin: ");
+                    Position origin = Screen.ReadPositionChess().ToPosition();
+                    Console.Write("Destination: ");
+                    Position destination = Screen.ReadPositionChess().ToPosition();
+                    chessMatch.MovePiece(origin, destination);
+                }
             }
             catch (BoardException e)
             {
