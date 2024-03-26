@@ -2,7 +2,7 @@
 
 namespace chess_console.board.entities
 {
-    internal class Piece
+    internal abstract class Piece
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -16,5 +16,6 @@ namespace chess_console.board.entities
             Board = board;
             AmountOfMovements = 0;
         }
+        public abstract bool[,] PossibleMovements();
     }
 }
