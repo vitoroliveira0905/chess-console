@@ -13,18 +13,31 @@ namespace chess_console
                 ChessMatch chessMatch = new ChessMatch();
                 while (!chessMatch.Finished)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(chessMatch.Board);
-                    Console.WriteLine();
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadPositionChess().ToPosition();
-                    Console.Clear();
-                    bool[,] possiblePositions = chessMatch.Board.Piece(origin).PossibleMovements();
-                    Screen.PrintBoard(chessMatch.Board, possiblePositions);
-                    Console.WriteLine();
-                    Console.Write("Destination: ");
-                    Position destination = Screen.ReadPositionChess().ToPosition();
-                    chessMatch.MovePiece(origin, destination);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(chessMatch.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Turn: " + chessMatch.Turn);
+                        Console.WriteLine("Current Player: " + chessMatch.CurrentPlayer);
+                        Console.WriteLine();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadPositionChess().ToPosition();
+                        chessMatch.ValidateOriginPosition(origin);
+                        Console.Clear();
+                        bool[,] possiblePositions = chessMatch.Board.Piece(origin).PossibleMovements();
+                        Screen.PrintBoard(chessMatch.Board, possiblePositions);
+                        Console.WriteLine();
+                        Console.Write("Destination: ");
+                        Position destination = Screen.ReadPositionChess().ToPosition();
+                        chessMatch.ValidateDestinationPosition(origin, destination);
+                        chessMatch.MakePlay(origin, destination);
+                    }
+                    catch (BoardException e)
+                    {
+                        Console.WriteLine(e);
+                        Console.ReadLine();
+                    }
                 }
             }
             catch (BoardException e)

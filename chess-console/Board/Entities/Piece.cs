@@ -16,6 +16,25 @@ namespace chess_console.board.entities
             Board = board;
             AmountOfMovements = 0;
         }
+        public bool CanMoveTo(Position destination)
+        {
+            return PossibleMovements()[destination.Row, destination.Column];
+        }
+        public bool ThereArePossibleMovements()
+        {
+            bool[,] mat = PossibleMovements();
+            for (int i = 0; i < Board.Row;  i++)
+            {
+                for (int j = 0; j < Board.Column; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         public abstract bool[,] PossibleMovements();
     }
 }

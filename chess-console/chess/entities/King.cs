@@ -19,7 +19,7 @@ namespace chess_console.chess.entities
                 Piece piece = Board.Piece(position);
                 return piece == null || piece.Color != Color;
             }
-            else { return false; }
+            return false;
         }
         public override bool[,] PossibleMovements()
         {
