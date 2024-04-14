@@ -6,6 +6,40 @@ namespace chess_console
 {
     internal class Screen
     {
+        public static void PrintChessMatch(ChessMatch chessMatch)
+        {
+            Console.Clear();
+            PrintBoard(chessMatch.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(chessMatch);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + chessMatch.Turn);
+            Console.WriteLine("Current Player: " + chessMatch.CurrentPlayer);
+        }
+
+        public static void PrintCapturedPieces(ChessMatch chessMatch)
+        {
+            Console.WriteLine("Captured pieces:");
+            Console.Write("White: ");
+            PrintSet(chessMatch.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            PrintSet(chessMatch.CapturedPieces(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine("");
+        }
+        public static void PrintSet(HashSet<Piece> set)
+        {
+            Console.Write("[ ");
+            foreach (Piece x in set)
+            {
+                Console.Write(x.ToString() + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int i = 0; i < board.Row; i++)
