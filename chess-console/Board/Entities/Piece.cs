@@ -16,6 +16,16 @@ namespace chess_console.board.entities
             Board = board;
             AmountOfMovements = 0;
         }
+
+        public void IncreaseAmountOfMovements()
+        {
+            AmountOfMovements++;
+        }
+        public void DecreaseAmountOfMovements()
+        {
+            AmountOfMovements--;
+        }
+
         public bool CanMoveTo(Position destination)
         {
             return PossibleMovements()[destination.Row, destination.Column];

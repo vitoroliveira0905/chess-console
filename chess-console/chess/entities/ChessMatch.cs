@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Reflection.PortableExecutable;
 using chess_console.board.entities;
 using chess_console.board.entities.enums;
 using chess_console.board.entities.exceptions;
@@ -11,6 +13,7 @@ namespace chess_console.chess.entities
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
+        public bool Check { get; private set; }
         public HashSet<Piece> Pieces;
         public HashSet<Piece> Captured;
 
@@ -19,27 +22,54 @@ namespace chess_console.chess.entities
             Board = new Board(8, 8);
             Turn = 1;
             CurrentPlayer = Color.White;
+            Finished = false;
+            Check = false;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             PlacePieces();
-            Finished = false;
         }
 
-        public void MovePiece(Position origin, Position destination)
+        public Piece DoMove(Position origin, Position destination)
         {
             Piece piece = Board.RemovePiece(origin);
-            //piece.IncreaseAmountOfMovements();
+            piece.IncreaseAmountOfMovements();
             Piece capturedPiece = Board.RemovePiece(destination);
             Board.PlacePiece(piece, destination);
             if (capturedPiece != null)
             {
                 Captured.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+
+        public void UndoMove(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = Board.RemovePiece(destination);
+            piece.DecreaseAmountOfMovements();
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, destination);
+                Captured.Remove(capturedPiece);
+            }
+            Board.PlacePiece(piece, origin);
         }
 
         public void MakePlay(Position origin, Position destination)
         {
-            MovePiece(origin, destination);
+            Piece capturedPiece = DoMove(origin, destination);
+            if (IsInCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destination, capturedPiece);
+                throw new BoardException("You can't put yourself in check!");
+            }
+            if (IsInCheck(Opponent(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
             Turn++;
             ChangePlayer();
         }
@@ -105,6 +135,48 @@ namespace chess_console.chess.entities
             }
             aux.ExceptWith(CapturedPieces(color));
             return aux;
+        }
+
+        private Color Opponent(Color color)
+        {
+            if(color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece King(Color color)
+        {
+            foreach(Piece x in PiecesInGame(color))
+            {
+                if(x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece king = King(color);
+            if(king == null)
+            {
+                throw new BoardException("There is no " + color + " king on the board!");
+            }
+            foreach(Piece x in PiecesInGame(Opponent(color)))
+            {
+                bool[,] mat = x.PossibleMovements();
+                if (mat[king.Position.Row, king.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void PlaceNewPiece(char rank, int file, Piece piece)

@@ -15,6 +15,14 @@ namespace chess_console
             Console.WriteLine();
             Console.WriteLine("Turn: " + chessMatch.Turn);
             Console.WriteLine("Current Player: " + chessMatch.CurrentPlayer);
+            if(chessMatch.Check == true)
+            {
+                Console.WriteLine();
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Check!");
+                Console.ForegroundColor = aux;
+            }
         }
 
         public static void PrintCapturedPieces(ChessMatch chessMatch)
@@ -30,6 +38,7 @@ namespace chess_console
             Console.ForegroundColor = aux;
             Console.WriteLine("");
         }
+
         public static void PrintSet(HashSet<Piece> set)
         {
             Console.Write("[ ");
