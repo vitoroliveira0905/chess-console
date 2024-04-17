@@ -1,6 +1,7 @@
 ﻿using chess_console.board.entities;
 using chess_console.chess.entities;
 using chess_console.board.entities.exceptions;
+using System.Data;
 
 namespace chess_console
 {
@@ -34,6 +35,8 @@ namespace chess_console
                         Console.WriteLine(e);
                         Console.ReadLine();
                     }
+                    Console.Clear();
+                    Screen.PrintChessMatch(chessMatch);
                 }
             }
             catch (BoardException e)

@@ -14,14 +14,26 @@ namespace chess_console
             PrintCapturedPieces(chessMatch);
             Console.WriteLine();
             Console.WriteLine("Turn: " + chessMatch.Turn);
-            Console.WriteLine("Current Player: " + chessMatch.CurrentPlayer);
-            if(chessMatch.Check == true)
+            if (!chessMatch.Finished)
+            {
+                Console.WriteLine("Current Player: " + chessMatch.CurrentPlayer);
+                if (chessMatch.Check)
+                {
+                    Console.WriteLine();
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Check!");
+                    Console.ForegroundColor = aux;
+                }
+            }
+            else
             {
                 Console.WriteLine();
                 ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Check!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Checkmate!");
                 Console.ForegroundColor = aux;
+                Console.WriteLine("Winner: " + chessMatch.CurrentPlayer);
             }
         }
 
