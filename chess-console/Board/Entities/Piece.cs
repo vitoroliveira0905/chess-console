@@ -26,7 +26,7 @@ namespace chess_console.board.entities
             AmountOfMovements--;
         }
 
-        public bool CanMoveTo(Position destination)
+        public bool PossibleMovement(Position destination)
         {
             return PossibleMovements()[destination.Row, destination.Column];
         }
