@@ -3,14 +3,14 @@ using chess_console.board.entities.enums;
 
 namespace chess_console.chess.entities
 {
-    internal class Rook : Piece
+    internal class Queen : Piece
     {
-        public Rook(Color color, Board board) : base(color, board)
+        public Queen(Color color, Board board) : base(color, board)
         {
         }
         public override string ToString()
         {
-            return "R";
+            return "Q";
         }
         private bool CanMove(Position position)
         {
@@ -37,6 +37,16 @@ namespace chess_console.chess.entities
                 position.SetValues(position.Row - 1, position.Column);
             }
 
+            //northeast
+            position.SetValues(Position.Row - 1, Position.Column + 1);
+            while (CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                    break;
+                position.SetValues(position.Row - 1, position.Column + 1);
+            }
+
             //east
             position.SetValues(Position.Row, Position.Column + 1);
             while (CanMove(position))
@@ -45,6 +55,16 @@ namespace chess_console.chess.entities
                 if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
                     break;
                 position.SetValues(position.Row, position.Column + 1);
+            }
+
+            //southeast
+            position.SetValues(Position.Row + 1, Position.Column + 1);
+            while (CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                    break;
+                position.SetValues(position.Row + 1, position.Column + 1);
             }
 
             //south
@@ -57,7 +77,17 @@ namespace chess_console.chess.entities
                 position.SetValues(position.Row + 1, position.Column);
             }
 
-            //weast
+            //southwest
+            position.SetValues(Position.Row + 1, Position.Column - 1);
+            while (CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                    break;
+                position.SetValues(position.Row + 1, position.Column - 1);
+            }
+
+            //west
             position.SetValues(Position.Row, Position.Column - 1);
             while (CanMove(position))
             {
@@ -67,6 +97,15 @@ namespace chess_console.chess.entities
                 position.SetValues(position.Row, position.Column - 1);
             }
 
+            //northwest
+            position.SetValues(Position.Row - 1, Position.Column - 1);
+            while (CanMove(position))
+            {
+                mat[position.Row, position.Column] = true;
+                if (Board.Piece(position) != null && Board.Piece(position).Color != Color)
+                    break;
+                position.SetValues(position.Row - 1, position.Column - 1);
+            }
             return mat;
         }
     }
