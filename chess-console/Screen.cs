@@ -118,7 +118,10 @@ namespace chess_console
             {
                 if (piece.Color == Color.White)
                 {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.Write(piece);
+                    Console.ForegroundColor = aux;
                 }
                 else
                 {
