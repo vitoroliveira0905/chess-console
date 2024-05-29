@@ -39,6 +39,27 @@ namespace chess_console.chess.entities
             {
                 Captured.Add(capturedPiece);
             }
+
+            //KingsideCastling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column + 3);
+                Position rookDestination = new Position(origin.Row, origin.Column + 1);
+                Piece kingsideRook = Board.RemovePiece(rookOrigin);
+                kingsideRook.IncreaseAmountOfMovements();
+                Piece rookCapturedPiece = Board.RemovePiece(rookDestination);
+                Board.PlacePiece(kingsideRook, rookDestination);
+            }
+            //QueensideCastling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column - 4);
+                Position rookDestination = new Position(origin.Row, origin.Column - 1);
+                Piece kingsideRook = Board.RemovePiece(rookOrigin);
+                kingsideRook.IncreaseAmountOfMovements();
+                Piece rookCapturedPiece = Board.RemovePiece(rookDestination);
+                Board.PlacePiece(kingsideRook, rookDestination);
+            }
             return capturedPiece;
         }
 
@@ -52,6 +73,25 @@ namespace chess_console.chess.entities
                 Captured.Remove(capturedPiece);
             }
             Board.PlacePiece(piece, origin);
+
+            //KingsideCastling
+            if (piece is King && destination.Column == origin.Column + 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column + 3);
+                Position rookDestination = new Position(origin.Row, origin.Column + 1);
+                Piece kingsideRook = Board.RemovePiece(rookDestination);
+                kingsideRook.DecreaseAmountOfMovements();
+                Board.PlacePiece(kingsideRook, rookOrigin);
+            }
+            //QueensideCastling
+            if (piece is King && destination.Column == origin.Column - 2)
+            {
+                Position rookOrigin = new Position(origin.Row, origin.Column - 4);
+                Position rookDestination = new Position(origin.Row, origin.Column - 1);
+                Piece kingsideRook = Board.RemovePiece(rookDestination);
+                kingsideRook.DecreaseAmountOfMovements();
+                Board.PlacePiece(kingsideRook, rookOrigin);
+            }
         }
 
         public void MakePlay(Position origin, Position destination)
@@ -240,7 +280,7 @@ namespace chess_console.chess.entities
             PlaceNewPiece('c', 8, new Bishop(Color.Black, Board));
             PlaceNewPiece('f', 8, new Bishop(Color.Black, Board));
             PlaceNewPiece('d', 8, new Queen(Color.Black, Board));
-            PlaceNewPiece('e', 8, new King(Color.Black, Board));
+            PlaceNewPiece('e', 8, new King(Color.Black, Board, this));
 
             PlaceNewPiece('a', 2, new Pawn(Color.White, Board));
             PlaceNewPiece('b', 2, new Pawn(Color.White, Board));
@@ -257,7 +297,7 @@ namespace chess_console.chess.entities
             PlaceNewPiece('c', 1, new Bishop(Color.White, Board));
             PlaceNewPiece('f', 1, new Bishop(Color.White, Board));
             PlaceNewPiece('d', 1, new Queen(Color.White, Board));
-            PlaceNewPiece('e', 1, new King(Color.White, Board));
+            PlaceNewPiece('e', 1, new King(Color.White, Board, this));
         }
     }
 }
