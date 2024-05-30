@@ -140,6 +140,18 @@ namespace chess_console.chess.entities
                 UndoMove(origin, destination, capturedPiece);
                 throw new BoardException("You can't put yourself in check!");
             }
+            Piece piece = Board.Piece(destination);
+
+            // #specialMove  Promotion
+            if(piece is Pawn && (destination.Row == 0 && piece.Color == Color.White || destination.Row == 7 && piece.Color == Color.Black))
+            {
+                Board.RemovePiece(destination);
+                Pieces.Remove(piece);
+                Piece queen = new Queen(piece.Color, Board);
+                Board.PlacePiece(queen, destination);
+                Pieces.Add(queen);
+            }
+
             if (IsInCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
@@ -158,8 +170,7 @@ namespace chess_console.chess.entities
                 ChangePlayer();
             }
 
-            // #specialMove  En Passant
-            Piece piece = Board.Piece(destination);
+            // #specialMove  EnPassant
             if (piece is Pawn && (destination.Row == origin.Row + 2 || destination.Row == origin.Row - 2))
             {
                 VulnerableEnPassant = piece;
