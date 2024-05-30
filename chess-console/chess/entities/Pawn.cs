@@ -5,8 +5,11 @@ namespace chess_console.chess.entities
 {
     internal class Pawn : Piece
     {
-        public Pawn(Color color, Board board) : base(color, board)
+        private ChessMatch _chessMatch;
+
+        public Pawn(Color color, Board board, ChessMatch chessMatch) : base(color, board)
         {
+            _chessMatch = chessMatch;
         }
         public override string ToString()
         {
@@ -70,6 +73,21 @@ namespace chess_console.chess.entities
                         }
                     }
                 }
+
+                // #specialMove  EnPassant
+                if (Position.Row == 3)
+                {
+                    position.SetValues(Position.Row, Position.Column - 1);
+                    if (Board.ThereIsPiece(position) && Board.Piece(position).Color != Color && Board.Piece(position) == _chessMatch.VulnerableEnPassant)
+                    {
+                        mat[position.Row - 1, position.Column] = true;
+                    }
+                    position.SetValues(Position.Row, Position.Column + 1);
+                    if (Board.ThereIsPiece(position) && Board.Piece(position).Color != Color && Board.Piece(position) == _chessMatch.VulnerableEnPassant)
+                    {
+                        mat[position.Row - 1, position.Column] = true;
+                    }
+                }
             }
 
             if (Color == Color.Black)
@@ -113,6 +131,21 @@ namespace chess_console.chess.entities
                         {
                             mat[position.Row, position.Column] = true;
                         }
+                    }
+                }
+
+                // #specialMove  EnPassant
+                if (Position.Row == 4)
+                {
+                    position.SetValues(Position.Row, Position.Column - 1);
+                    if (Board.ThereIsPiece(position) && Board.Piece(position).Color != Color && Board.Piece(position) == _chessMatch.VulnerableEnPassant)
+                    {
+                        mat[position.Row + 1, position.Column] = true;
+                    }
+                    position.SetValues(Position.Row, Position.Column + 1);
+                    if (Board.ThereIsPiece(position) && Board.Piece(position).Color != Color && Board.Piece(position) == _chessMatch.VulnerableEnPassant)
+                    {
+                        mat[position.Row + 1, position.Column] = true;
                     }
                 }
             }

@@ -97,8 +97,8 @@ namespace chess_console.chess.entities
             if (CanMove(position))
                 mat[position.Row, position.Column] = true;
 
-            //specialMove Castling
-            if(AmountOfMovements == 0 && !_chessMatch.Check)
+            // #specialMove  Castling
+            if (AmountOfMovements == 0 && !_chessMatch.Check)
             {
                 //KingsideCastling
                 Position kRookPosition = new Position(Position.Row, Position.Column + 3);
